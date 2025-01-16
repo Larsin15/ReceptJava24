@@ -1,9 +1,7 @@
 package ReceptJava24.Recept.models;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,6 +23,12 @@ public class Recept {
     @NotNull(message = "Ingredienserna kan inte vara null")
     @NotEmpty(message = "Ingredienserna kan inte vara tom ")
     private List<String> ingredients;
+
+
+    @NotNull(message = "Tid kan inte vara null")
+    @Min(value = 5, message = "Det kan inte gå fortare än 5 minuter")
+    @Max(value = 10080, message = "Det ska inte ta mer än 1 vecka för fan")
+    private int cookingTime;
 
     @NotNull(message = "Instruktioner kan inte vara null")
     @NotEmpty(message = "Instruktioner kan inte vara tom")
@@ -70,6 +74,17 @@ public class Recept {
 
     public void setIngredients(@NotNull(message = "Ingredienserna kan inte vara null") @NotEmpty(message = "Ingredienserna kan inte vara tom ") List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    @NotNull(message = "Tid kan inte vara null")
+    @Min(value = 5, message = "Det kan inte gå fortare än 5 minuter")
+    @Max(value = 10080, message = "Det ska inte ta mer än 1 vecka för fan")
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
+    public void setCookingTime(@NotNull(message = "Tid kan inte vara null") @NotEmpty(message = "Tid får inte vara tom") @Min(value = 5, message = "Det kan inte gå fortare än 5 minuter") @Max(value = 10080, message = "Det ska inte ta mer än 1 vecka för fan") int cookingTime) {
+        this.cookingTime = cookingTime;
     }
 
     public @NotNull(message = "Instruktioner kan inte vara null") @NotEmpty(message = "Instruktioner kan inte vara tom") @Size(max = 5000, message = "Instruktioner kan inte ha mer än 5000 tecken") String getInstructions() {
